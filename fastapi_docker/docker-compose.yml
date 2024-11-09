@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+    fastapi:
+        image: fastapi_image
+        container_name: fastapi_sample
+        build: ./fastapi
+        ports:
+            - 8080:8080
