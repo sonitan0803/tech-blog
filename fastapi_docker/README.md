@@ -1,6 +1,6 @@
 # 概要
 
-docker-compose で mysql を構築するシンプルな実装
+docker-compose で FastAPI を構築するシンプルな実装
 詳細は以下記事を参考
 
 []()
