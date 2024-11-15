@@ -1,0 +1,26 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:root@localhost:3306/sample-db"
+}
+
+// Classificationモデルの定義
+model Classification {
+  id        Int      @id @default(autoincrement())
+  category  String   @unique
+  details   Detail[] // Projectに紐づくタスク
+}
+
+// Detailモデルの定義
+model Detail {
+  id              Int             @id @default(autoincrement())
+  title           String
+  category        String    // Classificationとのリレーション用のフィールド
+  classification  Classification  @relation(fields: [category], references: [category]) // リレーションの定義
+}
