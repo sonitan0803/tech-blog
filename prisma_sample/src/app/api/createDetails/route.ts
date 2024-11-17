@@ -21,6 +21,13 @@ export async function POST(req: Request) {
     // リクエストのボディをJSONとして取得
     const body: Classification = await req.json();
     try {
+        if (body.category === "" || body.details[0].title === "") {
+            return NextResponse.json(
+                { error: "値を入力してください" },
+                { status: 400 }
+            );
+        }
+
         // カテゴリデータが既に存在するか確認
         let classificationData = await prisma.classification.findUnique({
             where: { category: body.category },

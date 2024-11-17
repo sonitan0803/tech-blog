@@ -1,30 +1,21 @@
-"use client";
-
-import axios from "axios";
+import { DataTable } from "@/components/client/dataTable";
+import { CategoryForm, DetailsForm } from "@/components/client/form/";
 
 export default function Home() {
-    const createProject = async () => {
-        try {
-            const response = await axios.post("/api/createProject", {
-                category: "哺乳類",
-                details: [
-                    {
-                        title: "人間",
-                    },
-                    {
-                        title: "イルカ",
-                    },
-                ],
-            });
-            console.log("成功", response.data);
-        } catch (error) {
-            console.log("エラー", error);
-        }
-    };
-
     return (
-        <div>
-            <button onClick={createProject}>aaa</button>
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+            }}
+        >
+            <DataTable></DataTable>
+            {/* 生物分類を増やすコンポーネント */}
+            <CategoryForm></CategoryForm>
+            {/* 生物の名前を増やすコンポーネント */}
+            <DetailsForm></DetailsForm>
         </div>
     );
 }
