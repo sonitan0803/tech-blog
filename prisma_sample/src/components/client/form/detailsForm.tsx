@@ -6,31 +6,20 @@ import { usePrismaOperation } from "@/hooks/prisma/prisma";
 
 import { CreateDetailButton } from "../button/createDetailButton";
 
-export function DetailsForm() {
+interface props {
+    initCategoryData: CategoryData[];
+}
+
+export function DetailsForm(props: props) {
     const prismaOperation = usePrismaOperation();
 
-    const [categoryList, setCategoryList] = useState<CategoryData[]>([
-        { category: "" },
-    ]);
-    const [categoryName, setCategoryName] = useState("哺乳類");
+    const [categoryList, setCategoryList] = useState<CategoryData[]>(
+        props.initCategoryData
+    );
+    const [categoryName, setCategoryName] = useState(
+        props.initCategoryData[0].category
+    );
     const [detailName, setDetailName] = useState("");
-
-    useLayoutEffect(() => {
-        const fetchData = async () => {
-            try {
-                const aaa: CategoryData[] = await prismaOperation.getCategory();
-                setCategoryList(aaa);
-                console.log("CategoryData オブジェクト:", aaa);
-
-                // 例えば、aaa が { id: 1, name: "Sample Category" } というデータを返す場合
-                console.log("category:", aaa[0].category); // IDの値を出力
-            } catch (error) {
-                console.error("エラーが発生しました:", error);
-            }
-        };
-
-        fetchData();
-    }, []);
 
     return (
         <div

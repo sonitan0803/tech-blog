@@ -4,35 +4,20 @@ import React, { useLayoutEffect, useState } from "react";
 import { usePrismaOperation } from "@/hooks/prisma/prisma";
 import { CategoryData, DetailsData } from "@/interface/category";
 
-export function DataTable() {
+interface props {
+    initCategoryData: CategoryData[];
+    initDetailData: DetailsData[];
+}
+
+export function DataTable(props: props) {
     const prismaOperation = usePrismaOperation();
-    const [categoryData, setCategoryData] = useState<CategoryData[] | null>(
-        null
+    const [categoryData, setCategoryData] = useState<CategoryData[]>(
+        props.initCategoryData
     ); // 初期値を null に設定
-    const [detailData, setDetailData] = useState<DetailsData[] | null>(null);
-
-    useLayoutEffect(() => {
-        const fetchData = async () => {
-            try {
-                setCategoryData(await prismaOperation.getCategory());
-                setDetailData(await prismaOperation.getDetails());
-            } catch (error) {
-                console.error("エラーが発生しました:", error);
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    // データがない場合にローディングメッセージを表示する
-    if (categoryData === null || detailData === null) {
-        return <div>Loading...</div>;
-    }
-
-    console.log(
-        "detailData",
-        detailData.filter((x) => x.category === "哺乳類")
+    const [detailData, setDetailData] = useState<DetailsData[]>(
+        props.initDetailData
     );
+
     return (
         <div>
             {categoryData && categoryData.length > 0 ? (

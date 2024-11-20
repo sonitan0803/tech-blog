@@ -5,7 +5,7 @@ import { PrismaClient } from "@prisma/client";
 // PrismaClientのインスタンスを作成
 const prisma = new PrismaClient();
 
-export async function GET() {
+export async function GET(req: Request) {
     try {
         const projects = await prisma.classification.findMany({
             // include: {
