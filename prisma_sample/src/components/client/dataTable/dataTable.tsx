@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { usePrismaOperation } from "@/hooks/prisma/prisma";
 import { CategoryData, DetailsData } from "@/interface/category";
 
@@ -17,6 +17,12 @@ export function DataTable(props: props) {
     const [detailData, setDetailData] = useState<DetailsData[]>(
         props.initDetailData
     );
+
+    // propsが更新されたときに状態を更新する
+    useEffect(() => {
+        setCategoryData(props.initCategoryData);
+        setDetailData(props.initDetailData);
+    }, [props.initCategoryData, props.initDetailData]);
 
     return (
         <div>
