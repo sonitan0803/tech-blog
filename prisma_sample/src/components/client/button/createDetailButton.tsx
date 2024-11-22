@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 interface props {
     categoryName: string;
     detailName: string;
+    setDetailName: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const CreateDetailButton = (props: props) => {
@@ -22,6 +23,7 @@ export const CreateDetailButton = (props: props) => {
                         props.categoryName,
                         props.detailName
                     );
+                    props.setDetailName("");
                     // ページをリフレッシュ
                     router.push("/");
                     router.refresh(); // App Router では reload じゃなく refresh！

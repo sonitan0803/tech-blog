@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { CategoryData } from "@/interface/category";
-import { usePrismaOperation } from "@/hooks/prisma/prisma";
 
 import { CreateDetailButton } from "../button/createDetailButton";
 
@@ -11,8 +10,6 @@ interface props {
 }
 
 export function DetailsForm(props: props) {
-    const prismaOperation = usePrismaOperation();
-
     const [categoryList, setCategoryList] = useState<CategoryData[]>(
         props.initCategoryData
     );
@@ -20,6 +17,11 @@ export function DetailsForm(props: props) {
         props.initCategoryData[0].category
     );
     const [detailName, setDetailName] = useState("");
+
+    useEffect(() => {
+        setCategoryList(props.initCategoryData);
+        setCategoryName(props.initCategoryData[0].category);
+    }, [props.initCategoryData]);
 
     return (
         <div
@@ -58,6 +60,7 @@ export function DetailsForm(props: props) {
             <CreateDetailButton
                 categoryName={categoryName}
                 detailName={detailName}
+                setDetailName={setDetailName}
             />
         </div>
     );

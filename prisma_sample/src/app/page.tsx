@@ -51,8 +51,12 @@ export default async function Home() {
             ></DataTable>
             {/* 生物分類を増やすコンポーネント */}
             <CategoryForm></CategoryForm>
-            {/* 生物の名前を増やすコンポーネント */}
-            <DetailsForm initCategoryData={categoryData}></DetailsForm>
+            {categoryData && categoryData.length > 0 && (
+                <>
+                    {/* 生物の名前を増やすコンポーネント */}
+                    <DetailsForm initCategoryData={categoryData}></DetailsForm>
+                </>
+            )}
         </div>
     );
 }

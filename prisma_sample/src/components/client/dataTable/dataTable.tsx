@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { usePrismaOperation } from "@/hooks/prisma/prisma";
 import { CategoryData, DetailsData } from "@/interface/category";
+import { useRouter } from "next/navigation";
 
 interface props {
     initCategoryData: CategoryData[];
@@ -17,6 +18,7 @@ export function DataTable(props: props) {
     const [detailData, setDetailData] = useState<DetailsData[]>(
         props.initDetailData
     );
+    const router = useRouter();
 
     // propsが更新されたときに状態を更新する
     useEffect(() => {
@@ -33,6 +35,21 @@ export function DataTable(props: props) {
                         (category: CategoryData, index: number) => (
                             <li key={index}>
                                 {category.category}
+                                <button
+                                    style={{
+                                        marginLeft: "2%",
+                                    }}
+                                    onClick={async () => {
+                                        await prismaOperation.deleteCategory(
+                                            category.category
+                                        );
+                                        // ページをリフレッシュ
+                                        router.push("/");
+                                        router.refresh();
+                                    }}
+                                >
+                                    削除
+                                </button>
                                 <ul>
                                     {detailData && detailData.length > 0 ? (
                                         detailData
@@ -52,6 +69,9 @@ export function DataTable(props: props) {
                                                             await prismaOperation.deleteDetails(
                                                                 detail.title
                                                             );
+                                                            // ページをリフレッシュ
+                                                            router.push("/");
+                                                            router.refresh();
                                                         }}
                                                     >
                                                         削除

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 interface props {
     categoryName: string;
+    setCategoryName: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const CreateCategoryButton = (props: props) => {
@@ -16,6 +17,7 @@ export const CreateCategoryButton = (props: props) => {
             style={{ width: "100%" }}
             onClick={async () => {
                 await prismaOperation.createCategory(props.categoryName);
+                props.setCategoryName("");
                 // ページをリフレッシュ
                 router.push("/");
                 router.refresh(); // App Router では reload じゃなく refresh！

@@ -31,7 +31,10 @@ export function CategoryForm() {
                     />
                 </label>
             </form>
-            <CreateCategoryButton categoryName={categoryName} />
+            <CreateCategoryButton
+                categoryName={categoryName}
+                setCategoryName={setCategoryName}
+            />
         </div>
     );
 }
