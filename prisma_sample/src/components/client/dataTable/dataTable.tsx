@@ -25,9 +25,10 @@ export function DataTable(props: props) {
     }, [props.initCategoryData, props.initDetailData]);
 
     return (
-        <div>
+        <div style={{ width: "50vw" }}>
             {categoryData && categoryData.length > 0 ? (
-                <ul>
+                <ul className="list-13">
+                    リスト
                     {categoryData.map(
                         (category: CategoryData, index: number) => (
                             <li key={index}>
@@ -43,6 +44,18 @@ export function DataTable(props: props) {
                                             .map((detail: DetailsData) => (
                                                 <li key={detail.title}>
                                                     {detail.title}
+                                                    <button
+                                                        style={{
+                                                            marginLeft: "2%",
+                                                        }}
+                                                        onClick={async () => {
+                                                            await prismaOperation.deleteDetails(
+                                                                detail.title
+                                                            );
+                                                        }}
+                                                    >
+                                                        削除
+                                                    </button>
                                                 </li>
                                             ))
                                     ) : (

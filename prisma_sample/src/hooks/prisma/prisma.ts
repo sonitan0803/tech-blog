@@ -73,5 +73,30 @@ export const usePrismaOperation = () => {
         }
     };
 
-    return { createCategory, createDetails, getCategory, getDetails };
+    const deleteDetails = async (title: string) => {
+        console.log("0:title=", title);
+        try {
+            await axios.delete(
+                `/api/deleteDetails?title=${encodeURIComponent(title)}`
+            );
+            alert("成功");
+            return;
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.error("APIエラー:", error.response?.data?.error);
+                throw new Error(
+                    error.response?.data?.error || "APIエラーが発生しました"
+                );
+            }
+            // それ以外のエラーの場合
+            throw new Error("予期しないエラーが発生しました");
+        }
+    };
+    return {
+        createCategory,
+        createDetails,
+        getCategory,
+        getDetails,
+        deleteDetails,
+    };
 };

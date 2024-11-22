@@ -20,7 +20,7 @@ model Classification {
 // Detailモデルの定義
 model Detail {
   id              Int             @id @default(autoincrement())
-  title           String
+  title           String　   @unique
   category        String    // Classificationとのリレーション用のフィールド
   classification  Classification  @relation(fields: [category], references: [category]) // リレーションの定義
 }
