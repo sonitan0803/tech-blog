@@ -1,0 +1,51 @@
+@import url("./share/variable.css");
+
+.main-container1 {
+    background-color: var(--background-color);
+}
+.main-container2 {
+    background-color: var(--background-color-red);
+}
+.main-container3 {
+    background-color: var(--background-color-blue);
+}
+.main-container4 {
+    background-color: var(--background-color-red);
+}
+.main-container5 {
+    background-color: var(--background-color-blue);
+}
+.main-container6 {
+    background-color: var(--background-color);
+}
+
+.text1 {
+    font-size: 2vw;
+    font-weight: bold;
+    color: var(--text-color);
+}
+.text2 {
+    font-size: 2vw;
+    font-weight: bold;
+    color: var(--text-color-green);
+}
+.text3 {
+    font-size: 2vw;
+    font-weight: bold;
+    color: var(--text-color-yellow);
+}
+.text4 {
+    font-size: 2vw;
+    font-weight: bold;
+    color: var(--text-color-green);
+}
+.text5 {
+    font-size: 2vw;
+    font-weight: bold;
+    color: var(--text-color-yellow);
+}
+.text6 {
+    font-size: 2vw;
+    font-weight: bold;
+    color: var(--text-color);
+}
