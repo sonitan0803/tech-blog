@@ -6,5 +6,15 @@ export default defineConfig({
     plugins: [tsconfigPaths(), react()],
     test: {
         environment: "jsdom",
+        reporters: ["html"],
+        coverage: {
+            exclude: [
+                "./next.config.ts",
+                ".next",
+                "./vitest.config.mts",
+                "./src/app/layout.tsx",
+                "./src/app/**",
+            ],
+        },
     },
 });
