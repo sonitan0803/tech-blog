@@ -9,3 +9,9 @@ vite
 ```
 $ pnpx create-vite
 ```
+
+Next.js
+
+```
+$npx create-next-app@latest --typescript
+```
