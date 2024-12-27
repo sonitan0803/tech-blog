@@ -13,6 +13,14 @@ const compat = new FlatCompat({
 const eslintConfig = [
     ...compat.extends('next/core-web-vitals', 'next/typescript'),
     importConfig,
+    {
+        rules: {
+            'no-console': 'warn',
+            'react-hooks/exhaustive-deps': 'error',
+            'react-hooks/rules-of-hooks': 'error',
+            '@typescript-eslint/consistent-type-imports': 'error',
+        },
+    },
 ]
 
 export default eslintConfig
