@@ -8,3 +8,13 @@
 $ pnpm create @eslint/config@latest
 $ pnpm install eslint-plugin-import --save-dev
 ```
+
+```diff
++ import eslintPluginImport from "eslint-plugin-import";
+
++ {
++         plugins: {
++             import: eslintPluginImport, // eslint-plugin-import をオブジェクトとして指定
++         },
++     },
+```
