@@ -6,4 +6,5 @@
 
 ```
 $ pnpm create @eslint/config@latest
+$ pnpm install eslint-plugin-import --save-dev
 ```
