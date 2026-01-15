@@ -7,13 +7,17 @@
         "dev": "vite",
         "build": "tsc -b && vite build",
         "lint": "eslint .",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "e2e_test:ui": "pnpm exec playwright test --ui",
+        "test:figma": "pnpm exec tsx tests/screen_compare/src/get_screen.tsx",
+        "test:e2e": "pnpm exec playwright test"
     },
     "dependencies": {
         "dotenv": "^17.2.3",
         "node-fetch": "^3.3.2",
         "react": "^19.1.1",
-        "react-dom": "^19.1.1"
+        "react-dom": "^19.1.1",
+        "react-router-dom": "^7.11.0"
     },
     "devDependencies": {
         "@eslint/js": "^9.36.0",

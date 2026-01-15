@@ -1,0 +1,33 @@
+.mainContainer {
+    position: relative;
+    width: 1080px;
+    height: 1920px;
+}
+
+.subText {
+    position: absolute;
+    top: 496px;
+    left: 522px;
+    font-size: 64px;
+    font-family: "Open Sans";
+}
+
+.kappaImage {
+    position: absolute;
+    top: 364px;
+    left: 1173px;
+    width: 294px;
+    height: 400px;
+}
+
+.mainButton {
+    position: absolute;
+    top: 736px;
+    left: 613px;
+    width: 278px;
+    height: 110px;
+    border: 2px solid #000000;
+    border-radius: 10px;
+    background-color: transparent;
+    font-size: 64px;
+}

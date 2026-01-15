@@ -12,18 +12,22 @@ const FILE_KEY = process.env.FILE_KEY;
 interface NodeType {
     id: string;
     frameName: string;
+    dir: string;
 }
 
 const nodeId: NodeType[] = [
     {
         id: "2:2",
         frameName: "Main",
+        dir: "main",
     },
     {
         id: "5:2",
         frameName: "Sub",
+        dir: "sub",
     },
 ];
+
 async function exportFrameAsPng() {
     nodeId.map(async (node) => {
         // 1️⃣ PNG画像のURLを取得
@@ -50,14 +54,19 @@ async function exportFrameAsPng() {
         const imageResponse = await fetch(imageUrl);
         const arrayBuffer = await imageResponse.arrayBuffer();
 
-        // 3️⃣ ローカルに保存
+        // 3️⃣ ディレクトリがなければ作成
+        const dirPath = `tests/screen_compare/result/design_compare/figma/screens/${node.dir}`;
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath, { recursive: true });
+        }
+        // ローカルに保存
         fs.writeFileSync(
-            `tests/screen_compare/img/figma/${node.frameName}.png`,
+            `${dirPath}/${node.frameName}.png`,
             Buffer.from(arrayBuffer)
         );
 
         console.log(
-            `✅ PNG exported successfully: tests/screen_compare/img/figma/${node.frameName}.png`
+            `✅ PNG exported successfully: tests/screen_compare/design_compare/figma/${node.dir}/${node.frameName}.png`
         );
     });
 }
