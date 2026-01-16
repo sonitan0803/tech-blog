@@ -24,12 +24,70 @@ export const UserData = () => {
     const navigate = useNavigate();
     const { SnackBar, setSnackState } = useContext(SnackStateContext);
     const [todos, setTodos] = useState<Todo[]>([]);
+    const [addTaskTitle, setAddTaskTitle] = useState("");
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         // Implement logout logic if needed
-        logout().catch((error) => {
+        await logout().catch((error) => {
             console.error("Logout failed:", error);
         });
+    };
+
+    const addTodo = async (title: string) => {
+        if (title === "") {
+            setSnackState({
+                isOpen: true,
+                message: "タスクを入力してください",
+                severity: "error",
+                vertical: "bottom",
+                horizontal: "right",
+            });
+            return;
+        }
+
+        const userId = await supabase.auth.getUser().then((data) => {
+            if (data.data.user) {
+                return data.data.user.id;
+            } else {
+                setSnackState({
+                    isOpen: true,
+                    message: "ユーザー情報取得失敗",
+                    severity: "error",
+                    vertical: "bottom",
+                    horizontal: "right",
+                });
+                throw new Error("User not found");
+            }
+        });
+
+        const { error } = await supabase
+            .from("todos")
+            .insert([
+                {
+                    title: title,
+                    user_id: userId,
+                },
+            ])
+            .select();
+
+        if (error) {
+            setSnackState({
+                isOpen: true,
+                message: "データ追加失敗:" + error.message,
+                severity: "error",
+                vertical: "bottom",
+                horizontal: "right",
+            });
+        }
+        setSnackState({
+            isOpen: true,
+            message: "データ追加成功",
+            severity: "success",
+            vertical: "bottom",
+            horizontal: "right",
+        });
+        setAddTaskTitle("");
+        await getTodos();
     };
 
     supabase.auth.onAuthStateChange((event) => {
@@ -48,30 +106,67 @@ export const UserData = () => {
         }
     });
 
-    useEffect(() => {
-        async function getTodos() {
-            const { data: todos } = await supabase.from("todos").select("*");
-            if (!todos) {
-                console.error("TODO NULLっちゃ");
-                return;
-            }
-            const parseResult = TodosSchema.safeParse(todos);
-            if (!parseResult.success) {
-                console.error("Zodバリデーションエラー", parseResult.error);
-                setSnackState({
-                    isOpen: true,
-                    message: "TODOデータ型不一致",
-                    severity: "error",
-                    vertical: "bottom",
-                    horizontal: "right",
-                });
-                return;
-            }
-            if (todos.length >= 1) {
-                setTodos(todos);
-            }
+    const deleteTodo = async (id: number) => {
+        const { data, error } = await supabase
+            .from("todos")
+            .delete()
+            .eq("id", id)
+            .select();
+        console.log("削除ID:", id, error);
+        if (error) {
+            setSnackState({
+                isOpen: true,
+                message: "データ削除失敗:" + error.message,
+                severity: "error",
+                vertical: "bottom",
+                horizontal: "right",
+            });
+            return;
         }
+        if (data.length === 0) {
+            setSnackState({
+                isOpen: true,
+                message: "対象のデータが見つかりません",
+                severity: "error",
+                vertical: "bottom",
+                horizontal: "right",
+            });
+            return;
+        }
+        setSnackState({
+            isOpen: true,
+            message: "データ削除成功",
+            severity: "success",
+            vertical: "bottom",
+            horizontal: "right",
+        });
+        await getTodos();
+    };
 
+    async function getTodos() {
+        const { data: todos } = await supabase.from("todos").select("*");
+        if (!todos) {
+            console.error("TODO NULLっちゃ");
+            return;
+        }
+        const parseResult = TodosSchema.safeParse(todos);
+        if (!parseResult.success) {
+            console.error("Zodバリデーションエラー", parseResult.error);
+            setSnackState({
+                isOpen: true,
+                message: "TODOデータ型不一致",
+                severity: "error",
+                vertical: "bottom",
+                horizontal: "right",
+            });
+            return;
+        }
+        if (todos.length >= 1) {
+            setTodos(todos);
+        }
+    }
+
+    useEffect(() => {
         getSession()
             .then((user) => {
                 const name = user.user_metadata.display_name;
@@ -100,6 +195,10 @@ export const UserData = () => {
                 userName={userName}
                 onLogout={handleLogout}
                 todos={todos}
+                addTaskTitle={addTaskTitle}
+                setAddTaskTitle={setAddTaskTitle}
+                addTodo={addTodo}
+                deleteTodo={deleteTodo}
             ></UserDataView>
         </>
     );
